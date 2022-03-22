@@ -1,3 +1,41 @@
+# From: https://www.saphirestudio.at/wptest/1182-2/
+
+# =============== #
+# Unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild
+/[Ll]ibrary/
+sysinfo.txt
+*.stackdump
+
+# ============================================= #
+# Visual Studio / MonoDevelop / Rider generated #
+# ============================================= #
+[Ee]xported[Oo]bj/
+.vs/
+/*.userprefs
+/*.csproj
+/*.pidb
+/*.suo
+/*.sln*
+/*.user
+/*.unityproj
+/*.booproj
+/.idea*/
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+[Tt]humbs.db
+[Dd]esktop.ini
+
+###############################################################################################################
 
 # Created by https://www.toptal.com/developers/gitignore/api/rider,unity
 # Edit at https://www.toptal.com/developers/gitignore?templates=rider,unity
