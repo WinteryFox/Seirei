@@ -425,7 +425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113534099691164089, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 113534099691164089, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -576,3 +576,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!95 &7628963225148306425
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7103396033132751177}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 9b2bf6e18d88b6f47ab58e2772ab9ee5, type: 3}
+  m_Controller: {fileID: 9100000, guid: 1fc354ffd3c256d438d62d8e399a912d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7628963225148306428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7103396033132751177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7c7ddaa18fb6e45bde98128cbe9c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
