@@ -842,8 +842,10 @@ MonoBehaviour:
   cameraInput: {x: 0, y: 0}
   cameraInputX: 0
   cameraInputY: 0
+  moveAmount: 0
   verticalInput: 0
   horizontalInput: 0
+  sprintInput: 0
 --- !u!114 &7628963225148306421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +870,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b092f43f76b7bb46bad6f2dcc019ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7
+  isSprinting: 0
+  walkingSpeed: 1.5
+  runningSpeed: 5
+  sprintingSpeed: 12
   rotationSpeed: 15
 --- !u!136 &7628963225148306423
 CapsuleCollider:
