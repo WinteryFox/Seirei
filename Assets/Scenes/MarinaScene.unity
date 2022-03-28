@@ -1362,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6404702865336364424, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: jumpHeight
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6404702865336364424, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: runningSpeed
@@ -1399,6 +1399,10 @@ PrefabInstance:
     - target: {fileID: 6404702865336364428, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: m_WarningMessage
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404702865336364430, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6404702865336364431, guid: 568a59b38f5192d4aa24e7b8eac8557d, type: 3}
       propertyPath: m_Height

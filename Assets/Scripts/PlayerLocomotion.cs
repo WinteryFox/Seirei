@@ -104,6 +104,11 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleFallingAndLanding()
     {
+        if (isJumping)
+        {
+            return;
+        }
+
         RaycastHit hit;
         Vector3 rayCastOrigin = transform.position;
         Vector3 targetPosition;
@@ -122,7 +127,7 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidBody.AddForce(Vector3.down*fallingVelocity*inAirTimer);
         }
 
-        if(Physics.SphereCast(rayCastOrigin,0.2f,Vector3.down,out hit,0.5f,groundLayer))
+        if(Physics.SphereCast(rayCastOrigin,0.2f,Vector3.down,out hit,0.3f,groundLayer))
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
@@ -155,17 +160,12 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleJumping()
     {
-        if (isGrounded)
-        {
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("Jump", false);
 
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
-            print(gravityIntensity);
-            Vector3 playerVelocity = playerRigidBody.velocity;
+            Vector3 playerVelocity =moveDirection;
             playerVelocity.y = jumpingVelocity;
-            print(playerVelocity);
             playerRigidBody.velocity = playerVelocity;
-        }
     }
 }
