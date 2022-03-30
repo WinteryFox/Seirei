@@ -12,6 +12,12 @@ public class PlayerLocomotion : MonoBehaviour
     Transform cameraObject;
     Rigidbody playerRigidBody;
 
+    [Header("Climbing stairs")]
+    [SerializeField] GameObject stepRayUpper;
+    [SerializeField] GameObject stepRayLower;
+    [SerializeField] float stepHeight = 0.3f;
+    [SerializeField] float stepSmooth = 2f;
+
     [Header("Falling")]
     public float inAirTimer;
     public float leapingVelocity;
@@ -41,6 +47,8 @@ public class PlayerLocomotion : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         playerRigidBody = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
+
+        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
     }
 
     public void HandleAllMovement()
@@ -50,6 +58,7 @@ public class PlayerLocomotion : MonoBehaviour
             return;
         HandleMovement();
         HandleRotation();
+        HandleStairclimb();
     }
 
     public void HandleMovement()
@@ -119,7 +128,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             if(!playerManager.isInteracting)
             {
-                animatorManager.PlayTargetAnimation("Fall", true);
+                animatorManager.PlayTargetAnimation("Fall", false);
             }
 
             inAirTimer = inAirTimer + Time.deltaTime;
@@ -131,7 +140,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
-                animatorManager.PlayTargetAnimation("Land", true);
+                animatorManager.PlayTargetAnimation("Land", false);
             }
 
             Vector3 rayCastHitPoint = hit.point;
@@ -160,6 +169,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleJumping()
     {
+        if(isGrounded)
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("Jump", false);
 
@@ -167,5 +177,40 @@ public class PlayerLocomotion : MonoBehaviour
             Vector3 playerVelocity =moveDirection;
             playerVelocity.y = jumpingVelocity;
             playerRigidBody.velocity = playerVelocity;
+    }
+
+    public void HandleStairclimb()
+    {
+        RaycastHit hitLower;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
+        {
+            RaycastHit hitUpper;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
+            {
+                playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+
+        RaycastHit hitLower45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
+        {
+
+            RaycastHit hitUpper45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
+            {
+                playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+
+        RaycastHit hitLowerMinus45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
+        {
+
+            RaycastHit hitUpperMinus45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
+            {
+                playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
     }
 }
