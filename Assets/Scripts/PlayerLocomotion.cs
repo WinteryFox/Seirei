@@ -136,7 +136,7 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidBody.AddForce(Vector3.down*fallingVelocity*inAirTimer);
         }
         Debug.DrawLine(rayCastOrigin, new Vector3(rayCastOrigin.x,rayCastOrigin.y-0.7f,rayCastOrigin.z), Color.red,2f);
-        if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 0.8f))
+        if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 0.6f))
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
