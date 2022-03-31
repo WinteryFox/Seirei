@@ -83,9 +83,9 @@ public class InputManager : MonoBehaviour
     private void HandleJumpingInput()
     {
         if (jumpInput)
-        {
-            jumpInput = false;
+        {            
             playerLocomotion.HandleJumping();
+            jumpInput = false;
         }
     }
 }

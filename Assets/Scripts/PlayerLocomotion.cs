@@ -135,8 +135,8 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidBody.AddForce(transform.forward * leapingVelocity);
             playerRigidBody.AddForce(Vector3.down*fallingVelocity*inAirTimer);
         }
-
-        if(Physics.SphereCast(rayCastOrigin,0.2f,Vector3.down,out hit,0.3f,groundLayer))
+        Debug.DrawLine(rayCastOrigin, new Vector3(rayCastOrigin.x,rayCastOrigin.y-0.7f,rayCastOrigin.z), Color.red,2f);
+        if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 0.8f))
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
@@ -169,14 +169,15 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleJumping()
     {
-        if(isGrounded)
+        if (isGrounded&& !isJumping)
+        {
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("Jump", false);
-
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
-            Vector3 playerVelocity =moveDirection;
+            Vector3 playerVelocity = moveDirection;
             playerVelocity.y = jumpingVelocity;
             playerRigidBody.velocity = playerVelocity;
+        }
     }
 
     public void HandleStairclimb()
