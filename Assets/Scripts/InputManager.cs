@@ -38,6 +38,7 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerActions.Sprint.performed+=i=> sprintInput = true;
             playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
             playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+            playerControls.PlayerActions.Jump.canceled += i => jumpInput = false;
         }
 
         playerControls.Enable();
