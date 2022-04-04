@@ -34,7 +34,7 @@ namespace Masks {
         }
 
         private void handleSwitch () {
-            if (!switchMaskInput.isActive || masks.Count == 0)
+            if (!switchMaskInput || masks.Count == 0)
                 return;
 
             abilityMaskIndex += 1;
@@ -45,7 +45,7 @@ namespace Masks {
         }
 
         private void handleUse () {
-            if (!useInput.isActive)
+            if (!useInput)
                 return;
 
             var ray = playerCamera.ScreenPointToRay (Mouse.current.position.ReadValue());
