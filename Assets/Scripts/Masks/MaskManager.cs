@@ -5,6 +5,14 @@ using UnityEngine.InputSystem;
 
 namespace Masks {
     public class MaskManager : MonoBehaviour {
+        public GameObject foxMask;
+        public GameObject rabbitMask;
+
+        //public float maskScale = 1.0f;
+
+        public GameObject maskSpot;
+        private GameObject currentMask;
+
         private PlayerControls playerControls;
         private List<Mask> masks = new();
         private Camera playerCamera;
@@ -42,6 +50,15 @@ namespace Masks {
                 abilityMaskIndex = 0;
 
             abilityMask = masks[abilityMaskIndex];
+
+            if (currentMask != null)
+                Destroy (currentMask);
+            currentMask = abilityMask switch {
+                FoxMask => Instantiate (foxMask, maskSpot.transform),
+                RabbitMask => Instantiate (rabbitMask, maskSpot.transform), // TODO
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            //currentMask.transform.localScale = new Vector3 (maskScale, maskScale, maskScale);
         }
 
         private void handleUse () {
