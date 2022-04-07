@@ -246,6 +246,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""ebfd99f5-b6de-417c-aa93-591f6b1e344a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Activate Mask"",
+                    ""type"": ""Button"",
+                    ""id"": ""78dc3e4b-ce33-4bb1-938b-ece3774853a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Mask"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffb0b6cc-006b-4ceb-9645-665f6ebd3020"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +308,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef52733a-5515-4273-ab0a-7f548a389d82"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae211922-7b62-44a3-9c10-20137b7e9fc7"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Activate Mask"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97fd1306-8eff-4006-85a6-c04b84e18ad6"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Mask"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -295,6 +355,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActions_Use = m_PlayerActions.FindAction("Use", throwIfNotFound: true);
+        m_PlayerActions_ActivateMask = m_PlayerActions.FindAction("Activate Mask", throwIfNotFound: true);
+        m_PlayerActions_SwitchMask = m_PlayerActions.FindAction("Switch Mask", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -397,12 +460,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
     private readonly InputAction m_PlayerActions_Sprint;
     private readonly InputAction m_PlayerActions_Jump;
+    private readonly InputAction m_PlayerActions_Use;
+    private readonly InputAction m_PlayerActions_ActivateMask;
+    private readonly InputAction m_PlayerActions_SwitchMask;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
+        public InputAction @Use => m_Wrapper.m_PlayerActions_Use;
+        public InputAction @ActivateMask => m_Wrapper.m_PlayerActions_ActivateMask;
+        public InputAction @SwitchMask => m_Wrapper.m_PlayerActions_SwitchMask;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +487,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
+                @Use.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUse;
+                @ActivateMask.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnActivateMask;
+                @ActivateMask.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnActivateMask;
+                @ActivateMask.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnActivateMask;
+                @SwitchMask.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSwitchMask;
+                @SwitchMask.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSwitchMask;
+                @SwitchMask.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSwitchMask;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -428,6 +506,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
+                @ActivateMask.started += instance.OnActivateMask;
+                @ActivateMask.performed += instance.OnActivateMask;
+                @ActivateMask.canceled += instance.OnActivateMask;
+                @SwitchMask.started += instance.OnSwitchMask;
+                @SwitchMask.performed += instance.OnSwitchMask;
+                @SwitchMask.canceled += instance.OnSwitchMask;
             }
         }
     }
@@ -441,5 +528,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
+        void OnActivateMask(InputAction.CallbackContext context);
+        void OnSwitchMask(InputAction.CallbackContext context);
     }
 }
