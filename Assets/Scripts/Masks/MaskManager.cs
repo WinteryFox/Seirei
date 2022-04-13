@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Masks {
+    [RequireComponent(typeof(AudioSource))]
     public class MaskManager : MonoBehaviour {
         public GameObject foxMask;
         public GameObject rabbitMask;
+        public AudioClip pickupSound;
 
         //public float maskScale = 1.0f;
 
+        private AudioSource audioSource;
         public GameObject maskSpot;
         private GameObject currentMask;
 
@@ -34,6 +38,7 @@ namespace Masks {
             playerControls.PlayerActions.ActivateMask.performed += _ => activateMaskInput = true;
             playerControls.PlayerActions.ActivateMask.canceled += _ => activateMaskInput = false;
             playerControls.Enable();
+            audioSource = GetComponent<AudioSource>();
         }
 
         void Update () {
@@ -85,7 +90,14 @@ namespace Masks {
                     throw new ArgumentOutOfRangeException();
             }
 
+            StartCoroutine (playAudio());
             Destroy (selection);
+        }
+
+        private IEnumerator playAudio () {
+            yield return new WaitWhile (() => audioSource.isPlaying);
+            audioSource.clip = pickupSound;
+            audioSource.Play(0);
         }
     }
 
