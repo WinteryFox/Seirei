@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         inputManager.HandleAllInputs();
+        playerLocomotion.PlayFootstepSound();
     }
 
     private void FixedUpdate()

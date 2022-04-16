@@ -214,4 +214,19 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
+
+    public void PlayFootstepSound()
+    {
+        Vector3 movementVelocity = moveDirection;
+
+        if (isGrounded == true && movementVelocity.magnitude > 2f && GetComponent<AudioSource>().isPlaying == false)
+        {
+        GetComponent<AudioSource>().Play();
+        }
+
+        if (isGrounded == true && movementVelocity.magnitude == 0f && GetComponent<AudioSource>().isPlaying == true)
+        {
+        GetComponent<AudioSource>().Stop();
+        }
+    }
 }
