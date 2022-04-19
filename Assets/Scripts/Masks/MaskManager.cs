@@ -90,8 +90,8 @@ namespace Masks {
                     locomotion.canJump = true;
                     locomotion.canSprint = false;
                     break;
-            };
-            //currentMask.transform.localScale = new Vector3 (maskScale, maskScale, maskScale);
+            }
+            currentMask.transform.localPosition += new Vector3(-0.069f, 0.065f, 0.023f);
         }
 
         private void handleUse () {
