@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,11 @@ public class PlayerLocomotion : MonoBehaviour
     AnimatorManager animatorManager;
     InputManager inputManager;
 
-    Vector3 moveDirection;
+    public Vector3 moveDirection;
     Transform cameraObject;
-    Rigidbody playerRigidBody;
+    public Rigidbody playerRigidBody;
+    public bool canJump;
+    public bool canSprint;
 
     [Header("Climbing stairs")]
     [SerializeField] GameObject stepRayUpper;
@@ -64,23 +67,23 @@ public class PlayerLocomotion : MonoBehaviour
     public void HandleMovement()
     {
         moveDirection = cameraObject.forward * inputManager.verticalInput;
-        moveDirection = moveDirection + cameraObject.right * inputManager.horizontalInput;
+        moveDirection += cameraObject.right * inputManager.horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if (isSprinting)
+        if (isSprinting && canSprint)
         {
-            moveDirection = moveDirection * sprintingSpeed;
+            moveDirection *= sprintingSpeed;
         }
         else
         {
             if (inputManager.moveAmount >= 0.5f)
             {
-                moveDirection = moveDirection * runningSpeed;
+                moveDirection *= runningSpeed;
             }
             else
             {
-                moveDirection = moveDirection * walkingSpeed;
+                moveDirection *= walkingSpeed;
             }
         }
 
@@ -169,7 +172,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleJumping()
     {
-        if (isGrounded&& !isJumping)
+        if (isGrounded&& !isJumping && canJump)
         {
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("Jump", false);

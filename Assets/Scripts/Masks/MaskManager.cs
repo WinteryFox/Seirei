@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Masks {
-    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent (typeof(AudioSource))]
+    [RequireComponent (typeof(PlayerLocomotion))]
     public class MaskManager : MonoBehaviour {
         public GameObject foxMask;
         public GameObject rabbitMask;
         public AudioClip pickupSound;
+        public GameObject player;
+        public AudioClip cooldown;
 
         //public float maskScale = 1.0f;
 
+        private PlayerLocomotion locomotion;
         private AudioSource audioSource;
         public GameObject maskSpot;
         private GameObject currentMask;
@@ -29,6 +34,7 @@ namespace Masks {
         private bool activateMaskInput;
 
         void Awake () {
+            locomotion = GetComponent<PlayerLocomotion>();
             playerControls ??= new PlayerControls();
             playerCamera = Camera.main;
             playerControls.PlayerActions.Use.performed += _ => useInput = true;
@@ -44,6 +50,14 @@ namespace Masks {
         void Update () {
             handleUse();
             handleSwitch();
+            activateMask();
+        }
+
+        private void activateMask () {
+            if (!activateMaskInput || abilityMask == null)
+                return;
+
+            abilityMask.useAbility (cooldown, audioSource, locomotion);
         }
 
         private void handleSwitch () {
@@ -90,6 +104,8 @@ namespace Masks {
                     throw new ArgumentOutOfRangeException();
             }
 
+            locomotion.canJump = true;
+            locomotion.canSprint = true;
             StartCoroutine (playAudio());
             Destroy (selection);
         }
@@ -97,19 +113,38 @@ namespace Masks {
         private IEnumerator playAudio () {
             yield return new WaitWhile (() => audioSource.isPlaying);
             audioSource.clip = pickupSound;
-            audioSource.Play(0);
+            audioSource.Play (0);
         }
     }
 
-    public interface Mask {
-        public void useAbility ();
+    public class Mask {
+        private float cooldown { get; set; } = 2.5f;
+        private float lastUseTime = Time.time;
+
+        public void useAbility (AudioClip c, AudioSource source, PlayerLocomotion locomotion) {
+            var currentTime = Time.time;
+            if (currentTime - lastUseTime < cooldown) {
+                source.clip = c;
+                source.Play();
+                return;
+            }
+
+            Debug.Log ("Mask was used!");
+            lastUseTime = currentTime;
+        }
     }
 
     public class FoxMask : Mask {
-        public void useAbility () { }
+        public new void useAbility (AudioClip c, AudioSource source, PlayerLocomotion locomotion) {
+            base.useAbility (c, source, locomotion);
+            //locomotion.playerRigidBody.velocity = locomotion.moveDirection * 100;
+            //player.transform.localPosition += new Vector3 (0, 10, 0);
+        }
     }
 
     public class RabbitMask : Mask {
-        public void useAbility () { }
+        public new void useAbility (AudioClip c, AudioSource source, PlayerLocomotion locomotion) {
+            base.useAbility (c, source, locomotion);
+        }
     }
 }
