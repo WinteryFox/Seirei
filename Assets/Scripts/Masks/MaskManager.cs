@@ -33,6 +33,8 @@ namespace Masks {
         private bool switchMaskInput;
         private bool activateMaskInput;
 
+        private float lastSwitchTime;
+
         void Awake () {
             locomotion = GetComponent<PlayerLocomotion>();
             playerControls ??= new PlayerControls();
@@ -64,6 +66,11 @@ namespace Masks {
             if (!switchMaskInput || masks.Count == 0)
                 return;
 
+            var currentTime = Time.time;
+            if (currentTime - lastSwitchTime < 2.0)
+                return;
+            lastSwitchTime = currentTime;
+
             abilityMaskIndex += 1;
             if (abilityMaskIndex >= masks.Count)
                 abilityMaskIndex = 0;
@@ -72,10 +79,17 @@ namespace Masks {
 
             if (currentMask != null)
                 Destroy (currentMask);
-            currentMask = abilityMask switch {
-                FoxMask => Instantiate (foxMask, maskSpot.transform),
-                RabbitMask => Instantiate (rabbitMask, maskSpot.transform), // TODO
-                _ => throw new ArgumentOutOfRangeException()
+            switch(abilityMask) {
+                case FoxMask:
+                    currentMask = Instantiate (foxMask, maskSpot.transform);
+                    locomotion.canJump = false;
+                    locomotion.canSprint = true;
+                    break;
+                case RabbitMask:
+                    currentMask = Instantiate (rabbitMask, maskSpot.transform);
+                    locomotion.canJump = true;
+                    locomotion.canSprint = false;
+                    break;
             };
             //currentMask.transform.localScale = new Vector3 (maskScale, maskScale, maskScale);
         }
@@ -104,15 +118,16 @@ namespace Masks {
                     throw new ArgumentOutOfRangeException();
             }
 
-            locomotion.canJump = true;
-            locomotion.canSprint = true;
-            StartCoroutine (playAudio());
+            var oldClip = audioSource.clip;
+            audioSource.clip = pickupSound;
+            audioSource.Play (0);
+            StartCoroutine (playAudio (oldClip));
             Destroy (selection);
         }
 
-        private IEnumerator playAudio () {
+        private IEnumerator playAudio (AudioClip clip) {
             yield return new WaitWhile (() => audioSource.isPlaying);
-            audioSource.clip = pickupSound;
+            audioSource.clip = clip;
             audioSource.Play (0);
         }
     }
