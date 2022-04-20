@@ -108,7 +108,7 @@ public class PlayerLocomotion : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation,rotationSpeed*Time.deltaTime);
 
-        if (isGrounded && !isJumping)
+        if (isGrounded)
         {
             transform.rotation = playerRotation;
         }
