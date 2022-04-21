@@ -57,11 +57,10 @@ public class PlayerLocomotion : MonoBehaviour
     public void HandleAllMovement()
     {
         HandleFallingAndLanding();
-        if (playerManager.isInteracting)
-            return;
+        //if (playerManager.isInteracting)
+        //    return;
         HandleMovement();
         HandleRotation();
-        //HandleStairclimb();
     }
 
     public void HandleMovement()
@@ -131,19 +130,21 @@ public class PlayerLocomotion : MonoBehaviour
         {
             if(!playerManager.isInteracting)
             {
-                animatorManager.PlayTargetAnimation("Fall", false);
+                animatorManager.PlayTargetAnimation("Fall", true);
             }
 
             inAirTimer = inAirTimer + Time.deltaTime;
             playerRigidBody.AddForce(transform.forward * leapingVelocity);
             playerRigidBody.AddForce(Vector3.down*fallingVelocity*inAirTimer);
         }
+
         Debug.DrawLine(rayCastOrigin, new Vector3(rayCastOrigin.x,rayCastOrigin.y-0.7f,rayCastOrigin.z), Color.red,2f);
+
         if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 0.6f))
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
-                animatorManager.PlayTargetAnimation("Land", false);
+                animatorManager.PlayTargetAnimation("Land", true);
             }
 
             Vector3 rayCastHitPoint = hit.point;
@@ -182,41 +183,6 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidBody.velocity = playerVelocity;
         }
     }
-
-    //public void HandleStairclimb()
-    //{
-    //    RaycastHit hitLower;
-    //    if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
-    //    {
-    //        RaycastHit hitUpper;
-    //        if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
-    //        {
-    //            playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-    //        }
-    //    }
-
-    //    RaycastHit hitLower45;
-    //    if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
-    //    {
-
-    //        RaycastHit hitUpper45;
-    //        if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
-    //        {
-    //            playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-    //        }
-    //    }
-
-    //    RaycastHit hitLowerMinus45;
-    //    if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
-    //    {
-
-    //        RaycastHit hitUpperMinus45;
-    //        if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
-    //        {
-    //            playerRigidBody.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-    //        }
-    //    }
-    //}
 
     public void PlayFootstepSound()
     {
