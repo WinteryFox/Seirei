@@ -15,12 +15,6 @@ public class PlayerLocomotion : MonoBehaviour
     public bool canJump;
     public bool canSprint;
 
-    [Header("Climbing stairs")]
-    [SerializeField] GameObject stepRayUpper;
-    [SerializeField] GameObject stepRayLower;
-    [SerializeField] float stepHeight = 0.3f;
-    [SerializeField] float stepSmooth = 2f;
-
     [Header("Falling")]
     public float inAirTimer;
     public float leapingVelocity;
@@ -50,15 +44,11 @@ public class PlayerLocomotion : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         playerRigidBody = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
-
-        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
     }
 
     public void HandleAllMovement()
     {
         HandleFallingAndLanding();
-        //if (playerManager.isInteracting)
-        //    return;
         HandleMovement();
         HandleRotation();
     }
@@ -140,7 +130,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         Debug.DrawLine(rayCastOrigin, new Vector3(rayCastOrigin.x,rayCastOrigin.y-0.7f,rayCastOrigin.z), Color.red,2f);
 
-        if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 0.6f))
+        if (Physics.Raycast(rayCastOrigin, Vector3.down,out hit, 1f))
         {
             if(!isGrounded&&!playerManager.isInteracting)
             {
