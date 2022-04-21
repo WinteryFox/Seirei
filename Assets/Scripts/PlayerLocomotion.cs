@@ -29,7 +29,6 @@ public class PlayerLocomotion : MonoBehaviour
 
     [Header("Movement Speeds")]
     public float walkingSpeed = 1.5f;
-    public float runningSpeed = 5;
     public float sprintingSpeed = 10;
     public float rotationSpeed = 15;
 
@@ -66,14 +65,7 @@ public class PlayerLocomotion : MonoBehaviour
         }
         else
         {
-            if (inputManager.moveAmount >= 0.5f)
-            {
-                moveDirection *= runningSpeed;
-            }
-            else
-            {
-                moveDirection *= walkingSpeed;
-            }
+          moveDirection *= walkingSpeed;
         }
 
         if (isGrounded && !isJumping)

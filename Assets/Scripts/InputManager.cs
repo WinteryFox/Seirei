@@ -72,7 +72,10 @@ public class InputManager : MonoBehaviour
     {
         if (sprintInput && moveAmount>0.5f)
         {
-            playerLocomotion.isSprinting = true;
+            if (playerLocomotion.canSprint)
+            {
+                playerLocomotion.isSprinting = true;
+            }    
         }
 
         else
